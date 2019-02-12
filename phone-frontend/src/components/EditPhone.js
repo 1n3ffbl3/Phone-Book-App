@@ -1,0 +1,136 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import SaveIcon from '@material-ui/icons/Save';
+import API_URL from '../config';
+import { Link } from 'react-router-dom';
+
+const styles = theme => ({
+    container: {
+        display: 'grid',
+    },
+    textField: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        width: 200,
+    },
+    button: {
+        margin: theme.spacing.unit,
+    }
+  });
+
+class EditPhone extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            message: null,
+            phoneBookRecord: null
+        };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.update = this.update.bind(this);
+    }
+
+    componentDidMount() {
+        const id = this.props.match.params.phoneBookRecordId;
+        fetch(`${API_URL}/${id}`, { 
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }})
+            .then(result => result.json())
+            .then(result => this.setState({phoneBookRecord: result[0]}));
+    }
+
+    update() {
+        const id = this.props.match.params.phoneBookRecordId;
+        const phoneBookRecord = this.state;
+        fetch(`${API_URL}/${id}`, {
+            method: "PUT",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(phoneBookRecord)
+        })
+        .then(result => this.setState({message: 'Update successful'}))
+        .catch(error => this.setState({message: 'Something went wrong. Check your data.'}));
+    }
+
+    handleChange(event) {
+        const { phoneBookRecord, message } = this.state;
+        if (!phoneBookRecord) {
+            return;
+        }
+        if (message) {
+            this.setState({message: null});
+        }
+        phoneBookRecord[event.target.name] = event.target.value;
+        this.setState({phoneBookRecord: phoneBookRecord});
+    }
+
+    render() {
+        const { classes } = this.props;
+        const { phoneBookRecord, message } = this.state;
+
+        return (
+          <div align="center" className={classes.container}>
+              <Link to="/">Go back to main page</Link>
+              <form>
+                <h1>Edit Phone Book Record</h1>
+                <div>
+                    <TextField
+                        type='text'
+                        name='firstname'
+                        label="First Name"
+                        className={classes.textField}
+                        value={phoneBookRecord ? phoneBookRecord.firstname : ''}
+                        onChange={this.handleChange}
+                        margin="normal"
+                    />
+                </div>
+                <div>
+                    <TextField
+                        type='text'
+                        name='lastname'
+                        label="Last Name"
+                        className={classes.textField}
+                        value={phoneBookRecord ? phoneBookRecord.lastname : ''}
+                        onChange={this.handleChange}
+                        margin="normal"
+                    />
+                </div>
+                <div> 
+                    <TextField
+                        type='phone'
+                        name='phonenumber'
+                        label="Phone Number"
+                        className={classes.textField}
+                        value={phoneBookRecord ? phoneBookRecord.phonenumber : ''}
+                        onChange={this.handleChange}
+                        margin="normal"
+                    />
+                </div>
+                <Button variant="contained" 
+                    size="small" 
+                    className={classes.button}
+                    onClick={this.update}>
+                    <SaveIcon />
+                        Save
+                </Button>
+                <div>
+                    {message ? message : ''}
+                </div>
+              </form>
+          </div>
+        );
+    }
+}
+
+EditPhone.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(EditPhone);
