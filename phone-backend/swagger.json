@@ -1,0 +1,47 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"description": "Documentation of Phone Book backend",
+		"version": "1.0.0",
+		"title": "Swagger Phone Book",
+		"contact": {
+			"email": "mizgier.m@gmail.com"
+		},
+		"license": {
+			"name": "Apache 2.0",
+			"url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+		}
+	},
+	"host": "localhost:3000",
+	"basePath": "/api/v2/",
+	"tags": [
+		{
+			"name": "phonebook",
+			"description": "Access to Phone Book data"
+		}
+	],
+	"schemes": [
+		"http"
+	],
+	"paths": {
+		"/phoneBook/": {
+			"get": {
+				"tags": [
+					"phonebook"
+				],
+				"summary": "Get all phone book entries",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"405": {
+						"description": "Test description"
+					}
+				}
+			}
+		}
+	}
+}

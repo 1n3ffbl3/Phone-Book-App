@@ -4,36 +4,36 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 const columns = [
-  { id: 'lastName', numeric: false, disablePadding: true, label: 'Last name' },
-  { id: 'firstName', numeric: true, disablePadding: false, label: 'First name' },
-  { id: 'phoneNumber', numeric: true, disablePadding: false, label: 'Phone number'},
-  { id: 'edit', numeric: true, disablePadding: false, label: 'Edit'}
+	{ id: 'lastName', numeric: false, disablePadding: true, label: 'Last name' },
+	{ id: 'firstName', numeric: true, disablePadding: false, label: 'First name' },
+	{ id: 'phoneNumber', numeric: true, disablePadding: false, label: 'Phone number' },
+	{ id: 'edit', numeric: true, disablePadding: false, label: 'Edit' }
 ];
 
 class PhoneTableHeader extends React.Component {
 
-  render() {
-    return (
-      <TableHead>
-        <TableRow>
-            <TableCell>
-            </TableCell>
-          {columns.map(
-            column => (
-              <TableCell
-                key={column.id}
-                padding={column.disablePadding ? 'none' : 'default'}
-                align="center"
-              > 
-              {column.label}
-              </TableCell>
-            ),
-            this,
-          )}
-        </TableRow>
-      </TableHead>
-    );
-  }
+	render() {
+		return (
+			<TableHead>
+				<TableRow>
+					<TableCell>
+					</TableCell>
+					{columns.map(
+						column => (
+							<TableCell
+								key={column.id}
+								padding={column.disablePadding ? 'none' : 'default'}
+								align="center"
+							>
+								{column.label}
+							</TableCell>
+						),
+						this,
+					)}
+				</TableRow>
+			</TableHead>
+		);
+	}
 }
 
 export default PhoneTableHeader;
