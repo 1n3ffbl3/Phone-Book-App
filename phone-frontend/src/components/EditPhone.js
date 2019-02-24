@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import { TextField, Button } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import { Link } from 'react-router-dom';
 import styles from './styles';
 import phoneApi from '../services/PhoneApi';
+import SimpleReactValidator from 'simple-react-validator';
 
 class EditPhone extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			message: null,
 			phoneBookRecord: null
 		};
 
+		this.validator = new SimpleReactValidator();
 		this.handleChange = this.handleChange.bind(this);
 		this.update = this.update.bind(this);
 	}
@@ -26,21 +26,24 @@ class EditPhone extends React.Component {
 			.then(result => this.setState({ phoneBookRecord: result[0] }));
 	}
 
-	update() {
-		const id = this.props.match.params.phoneBookRecordId;
-		const phoneBookRecord = this.state;
-		phoneApi.updatePhone(id, phoneBookRecord)
-			.then(() => this.setState({ message: 'Update successful' }))
-			.catch(error => this.setState({ message: 'Something went wrong. Check your data.' }));
+	update(event) {
+		event.preventDefault();
+		if (this.validator.allValid()) {
+			const id = this.props.match.params.phoneBookRecordId;
+			const phoneBookRecord = this.state;
+			phoneApi.updatePhone(id, phoneBookRecord)
+				.then(() => this.setState({ message: 'Update successful' }))
+				.catch(() => this.setState({ message: 'Something went wrong. Check your data.' }));
+		} else {
+			this.validator.showMessages();
+			this.forceUpdate();
+		}
 	}
 
 	handleChange(event) {
-		const { phoneBookRecord, message } = this.state;
+		const { phoneBookRecord } = this.state;
 		if (!phoneBookRecord) {
 			return;
-		}
-		if (message) {
-			this.setState({ message: null });
 		}
 		phoneBookRecord[event.target.name] = event.target.value;
 		this.setState({ phoneBookRecord: phoneBookRecord });
@@ -48,7 +51,7 @@ class EditPhone extends React.Component {
 
 	render() {
 		const { classes } = this.props;
-		const { phoneBookRecord, message } = this.state;
+		const { phoneBookRecord } = this.state;
 
 		return (
 			<div align="center" className={classes.container}>
@@ -65,6 +68,7 @@ class EditPhone extends React.Component {
 							onChange={this.handleChange}
 							margin="normal"
 						/>
+						{phoneBookRecord && this.validator.message('firstname', phoneBookRecord.firstname, 'required|alpha|min:5')}
 					</div>
 					<div>
 						<TextField
@@ -76,6 +80,7 @@ class EditPhone extends React.Component {
 							onChange={this.handleChange}
 							margin="normal"
 						/>
+						{phoneBookRecord && this.validator.message('lastname', phoneBookRecord.lastname, 'required|alpha|min:5')}
 					</div>
 					<div>
 						<TextField
@@ -87,6 +92,7 @@ class EditPhone extends React.Component {
 							onChange={this.handleChange}
 							margin="normal"
 						/>
+						{phoneBookRecord && this.validator.message('phonenumber', phoneBookRecord.phonenumber, 'required|min:7')}
 					</div>
 					<Button variant="contained"
 						size="small"
@@ -94,10 +100,7 @@ class EditPhone extends React.Component {
 						onClick={this.update}>
 						<SaveIcon />
 						Save
-                </Button>
-					<div>
-						{message ? message : ''}
-					</div>
+                	</Button>
 				</form>
 			</div>
 		);

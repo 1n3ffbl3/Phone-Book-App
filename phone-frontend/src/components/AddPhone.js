@@ -6,41 +6,42 @@ import SaveIcon from '@material-ui/icons/Save';
 import { Link } from 'react-router-dom';
 import styles from './styles';
 import phoneApi from '../services/PhoneApi';
+import SimpleReactValidator from 'simple-react-validator';
 
 class AddPhone extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			firstname: null,
-			lastname: null,
-			phonenumber: null,
-			message: null
+			firstname: '',
+			lastname: '',
+			phonenumber: ''
 		};
 
+		this.validator = new SimpleReactValidator();
 		this.handleChange = this.handleChange.bind(this);
 		this.save = this.save.bind(this);
 	}
 
 	handleChange(event) {
-		const { message } = this.state;
-		if (message) {
-			this.setState({ message: null });
-		}
 		this.setState({ [event.target.name]: event.target.value });
 	}
 
 	save(event) {
 		event.preventDefault();
-		const { firstname, lastname, phonenumber } = this.state;
-		const data = { firstname: firstname, lastname: lastname, phonenumber: phonenumber };
-		phoneApi.addPhone(data)
-			.then(() => this.setState({ message: 'Record added succesfully.' }))
-			.catch(() => this.setState({ message: 'Something went wrong. Check your data.' }));
+		if (this.validator.allValid()) {
+			const { firstname, lastname, phonenumber } = this.state;
+			const data = { firstname: firstname, lastname: lastname, phonenumber: phonenumber };
+			phoneApi.addPhone(data)
+				.then(() => this.setState({ message: 'Record added succesfully.' }))
+				.catch(() => this.setState({ message: 'Something went wrong. Check your data.' }));
+		} else {
+			this.validator.showMessages();
+			this.forceUpdate();
+		}
 	}
 
 	render() {
 		const { classes } = this.props;
-		const { firstname, lastname, phonenumber, message } = this.state;
 
 		return (
 			<div align="center" className={classes.container}>
@@ -53,10 +54,11 @@ class AddPhone extends React.Component {
 							name='firstname'
 							label="First Name"
 							className={classes.textField}
-							value={firstname ? firstname : ''}
+							value={this.state.firstname}
 							onChange={this.handleChange}
 							margin="normal"
 						/>
+						{this.validator.message('firstname', this.state.firstname, 'required|alpha|min:5')}
 					</div>
 					<div>
 						<TextField
@@ -64,10 +66,11 @@ class AddPhone extends React.Component {
 							name='lastname'
 							label="Last Name"
 							className={classes.textField}
-							value={lastname ? lastname : ''}
+							value={this.state.lastname}
 							onChange={this.handleChange}
 							margin="normal"
 						/>
+						{this.validator.message('lastname', this.state.lastname, 'required|alpha|min:5')}
 					</div>
 					<div>
 						<TextField
@@ -75,10 +78,11 @@ class AddPhone extends React.Component {
 							name='phonenumber'
 							label="Phone Number"
 							className={classes.textField}
-							value={phonenumber ? phonenumber : ''}
+							value={this.state.phonenumber}
 							onChange={this.handleChange}
 							margin="normal"
 						/>
+						{this.validator.message('phonenumber', this.state.phonenumber, 'required|min:7')}
 					</div>
 					<Button variant="contained"
 						size="small"
@@ -87,10 +91,7 @@ class AddPhone extends React.Component {
 						onClick={this.save}>
 						<SaveIcon />
 						Save
-          </Button>
-					<div>
-						{message ? message : ''}
-					</div>
+         			</Button>
 				</form>
 			</div>
 		);
