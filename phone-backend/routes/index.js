@@ -24,10 +24,16 @@ router.get('/:id', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-	const firstName = req.body.firstname;
-	const lastName = req.body.lastname;
-	const phoneNumber = req.body.phonenumber;
-	console.log(req.body);
+	if (!req.body.phoneBookRecord) {
+		res.status(405);
+		res.send(JSON.stringify({ error: "No phoneBookRecord found in body." }));
+		return;
+	}
+
+	const firstName = req.body.phoneBookRecord.firstname;
+	const lastName = req.body.phoneBookRecord.lastname;
+	const phoneNumber = req.body.phoneBookRecord.phonenumber;
+
 	if (!phoneBookValidator.validate(firstName, lastName, phoneNumber)) {
 		res.status(400);
 		res.send(JSON.stringify({ error: "Wrong input parameters!" }));

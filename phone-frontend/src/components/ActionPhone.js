@@ -9,39 +9,72 @@ import styles from './styles';
 import phoneApi from '../services/PhoneApi';
 import { notifyError, notifySuccess } from './toasts';
 
-class EditPhone extends React.Component {
+const ADD = 'ADD';
+const EDIT = 'EDIT';
+
+class ActionPhone extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			phoneBookRecord: null,
 			toMainPage: false,
+			action: ''
 		};
 
 		this.validator = new SimpleReactValidator();
 		this.handleChange = this.handleChange.bind(this);
-		this.update = this.update.bind(this);
+		this.doAction = this.doAction.bind(this);
+		this.doCreate = this.doCreate.bind(this);
+		this.doUpdate = this.doUpdate.bind(this);
 	}
 
 	componentDidMount() {
 		const id = this.props.match.params.phoneBookRecordId;
-		phoneApi.getPhoneById(id)
-			.then(result => this.setState({ phoneBookRecord: result[0] }));
+		if (id) {
+			this.setState({ action: EDIT });
+			phoneApi.getPhoneById(id)
+				.then(result => this.setState({ phoneBookRecord: result[0] }));
+		} else {
+			this.setState({ action: ADD, phoneBookRecord: {} });
+		}
 	}
 
-	update(event) {
+	doUpdate() {
+		const id = this.props.match.params.phoneBookRecordId;
+		const { phoneBookRecord } = this.state;
+		phoneApi.updatePhone(id, phoneBookRecord)
+			.then(() => {
+				notifySuccess('Phone record updated successfully');
+				this.setState({ toMainPage: true });
+			})
+			.catch((err) => {
+				const errorMessage = err.error || 'An error has occured';
+				notifyError(errorMessage);
+			});
+	}
+
+	doCreate() {
+		const { phoneBookRecord } = this.state;
+		phoneApi.addPhone(phoneBookRecord)
+			.then(() => {
+				notifySuccess('Phone record added successfully');
+				this.setState({ toMainPage: true });
+			})
+			.catch((err) => {
+				const errorMessage = err.error || 'An error has occured';
+				notifyError(errorMessage);
+			});
+	}
+
+	doAction(event) {
 		event.preventDefault();
 		if (this.validator.allValid()) {
-			const id = this.props.match.params.phoneBookRecordId;
-			const phoneBookRecord = this.state;
-			phoneApi.updatePhone(id, phoneBookRecord)
-				.then(() => {
-					notifySuccess('Phone record updated successfully');
-					this.setState({ toMainPage: true });
-				})
-				.catch((err) => {
-					const errorMessage = err.error || 'An error has occured';
-					notifyError(errorMessage);
-				});
+			const { action } = this.state;
+			if (action === ADD) {
+				this.doCreate();
+			} else if (action === EDIT) {
+				this.doUpdate();
+			}
 		} else {
 			this.validator.showMessages();
 			this.forceUpdate();
@@ -59,7 +92,7 @@ class EditPhone extends React.Component {
 
 	render() {
 		const { classes } = this.props;
-		const { phoneBookRecord } = this.state;
+		const { phoneBookRecord, action } = this.state;
 		if (this.state.toMainPage) {
 			return <Redirect to="/" />;
 		}
@@ -68,7 +101,7 @@ class EditPhone extends React.Component {
 			<div align="center" className={classes.container}>
 				<Link to="/">Go back to main page</Link>
 				<form>
-					<h1>Edit Phone Book Record</h1>
+					<h1>{action} Phone Book Record</h1>
 					<div>
 						<TextField
 							type="text"
@@ -115,7 +148,7 @@ class EditPhone extends React.Component {
 						variant="contained"
 						size="small"
 						className={classes.button}
-						onClick={this.update}
+						onClick={this.doAction}
 					>
 						<SaveIcon />
 						Save
@@ -126,8 +159,8 @@ class EditPhone extends React.Component {
 	}
 }
 
-EditPhone.propTypes = {
+ActionPhone.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(EditPhone);
+export default withStyles(styles)(ActionPhone);

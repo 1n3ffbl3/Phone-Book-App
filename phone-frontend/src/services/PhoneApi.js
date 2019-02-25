@@ -24,10 +24,10 @@ class PhoneApi {
 		const res = await fetch(`${API_URL}`, {
 			method: 'POST',
 			headers: {
-				Accept: APPLICATION_JSON,
+				'Accept': APPLICATION_JSON,
 				'Content-Type': APPLICATION_JSON,
 			},
-			body: JSON.stringify(data),
+			body: JSON.stringify({ phoneBookRecord: data }),
 		});
 		if (res.status === 204) {
 			return '';
@@ -40,10 +40,10 @@ class PhoneApi {
 		const res = await fetch(`${API_URL}${id}`, {
 			method: 'PUT',
 			headers: {
-				Accept: APPLICATION_JSON,
+				'Accept': APPLICATION_JSON,
 				'Content-Type': APPLICATION_JSON,
 			},
-			body: JSON.stringify(data),
+			body: JSON.stringify({ phoneBookRecord: data }),
 		});
 		if (res.status === 204) {
 			return '';

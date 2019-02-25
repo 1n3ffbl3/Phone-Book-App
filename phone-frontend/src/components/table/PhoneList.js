@@ -60,7 +60,7 @@ class PhoneList extends React.Component {
 					<div>
 						<span>
 							Add Phone Book Record
-              </span>
+              			</span>
 						<Link to="/new">
 							<Fab color="secondary" size="small" aria-label="Add" className={classes.fab}>
 								<Icon>add_icon</Icon>
