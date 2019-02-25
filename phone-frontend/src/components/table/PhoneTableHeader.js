@@ -18,28 +18,24 @@ const columns = [
 	},
 ];
 
-class PhoneTableHeader extends React.Component {
-	render() {
-		return (
-			<TableHead>
-				<TableRow>
-					<TableCell />
-					{columns.map(
-						column => (
-							<TableCell
-								key={column.id}
-								padding={column.disablePadding ? 'none' : 'default'}
-								align="center"
-							>
-								{column.label}
-							</TableCell>
-						),
-						this,
-					)}
-				</TableRow>
-			</TableHead>
-		);
-	}
-}
+const PhoneTableHeader = () => (
+	<TableHead>
+		<TableRow>
+			<TableCell />
+			{columns.map(
+				column => (
+					<TableCell
+						key={column.id}
+						padding={column.disablePadding ? 'none' : 'default'}
+						align="center"
+					>
+						{column.label}
+					</TableCell>
+				),
+				this,
+			)}
+		</TableRow>
+	</TableHead>
+);
 
 export default PhoneTableHeader;
