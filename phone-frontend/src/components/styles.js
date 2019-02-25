@@ -19,11 +19,11 @@ const styles = theme => ({
 		minWidth: 700,
 	},
 	fab: {
-		margin: theme.spacing.unit
+		margin: theme.spacing.unit,
 	},
 	error: {
-		color: 'red'
-	}
+		color: 'red',
+	},
 });
 
 export default styles;

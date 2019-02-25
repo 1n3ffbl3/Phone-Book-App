@@ -4,9 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import { TextField, Button } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import { Link, Redirect } from 'react-router-dom';
+import SimpleReactValidator from 'simple-react-validator';
 import styles from './styles';
 import phoneApi from '../services/PhoneApi';
-import SimpleReactValidator from 'simple-react-validator';
 import { notifyError, notifySuccess } from './toasts';
 
 class AddPhone extends React.Component {
@@ -16,7 +16,7 @@ class AddPhone extends React.Component {
 			firstname: '',
 			lastname: '',
 			phonenumber: '',
-			toMainPage: false
+			toMainPage: false,
 		};
 
 		this.validator = new SimpleReactValidator();
@@ -32,11 +32,11 @@ class AddPhone extends React.Component {
 		event.preventDefault();
 		if (this.validator.allValid()) {
 			const { firstname, lastname, phonenumber } = this.state;
-			const data = { firstname: firstname, lastname: lastname, phonenumber: phonenumber };
+			const data = { firstname, lastname, phonenumber };
 			phoneApi.addPhone(data)
 				.then(() => {
 					notifySuccess('Phone record added successfully');
-					this.setState({ 'toMainPage': true });
+					this.setState({ toMainPage: true });
 				})
 				.catch((err) => {
 					console.error(err);
@@ -52,7 +52,7 @@ class AddPhone extends React.Component {
 	render() {
 		const { classes } = this.props;
 		if (this.state.toMainPage) {
-			return <Redirect to="/" />
+			return <Redirect to="/" />;
 		}
 
 		return (
@@ -62,56 +62,61 @@ class AddPhone extends React.Component {
 					<h1>New Phone Number</h1>
 					<div>
 						<TextField
-							type='text'
-							name='firstname'
+							type="text"
+							name="firstname"
 							label="First Name"
 							className={classes.textField}
 							value={this.state.firstname}
 							onChange={this.handleChange}
 							margin="normal"
-						/>
+  />
 						<div className={classes.error}>
 							{this.validator.message('firstname', this.state.firstname, 'required|alpha|min:3')}
-						</div>
-					</div>
+  </div>
+  </div>
 					<div>
 						<TextField
-							type='text'
-							name='lastname'
+							type="text"
+							name="lastname"
 							label="Last Name"
 							className={classes.textField}
 							value={this.state.lastname}
 							onChange={this.handleChange}
 							margin="normal"
-						/>
+  />
 						<div className={classes.error}>
 							{this.validator.message('lastname', this.state.lastname, 'required|alpha|min:5')}
-						</div>
-					</div>
+  </div>
+  </div>
 					<div>
 						<TextField
-							type='phone'
-							name='phonenumber'
+							type="phone"
+							name="phonenumber"
 							label="Phone Number"
 							className={classes.textField}
 							value={this.state.phonenumber}
 							onChange={this.handleChange}
 							margin="normal"
-						/>
+  />
 						<div className={classes.error}>
 							{this.validator.message('phonenumber', this.state.phonenumber, 'required|min:7')}
-						</div>
-					</div>
-					<Button variant="contained"
+  </div>
+  </div>
+					<Button
+    variant="contained"
 						size="small"
 						type="submit"
 						className={classes.button}
-						onClick={this.save}>
+						onClick={this.save}
+  >
 						<SaveIcon />
 						Save
-         			</Button>
-				</form>
-			</div>
+
+
+					
+</Button>
+  </form>
+  </div>
 		);
 	}
 }

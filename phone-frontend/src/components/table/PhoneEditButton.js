@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import styles from '../styles';
 import { Fab, Icon } from '@material-ui/core';
+import styles from '../styles';
 
 function PhoneEditButton(props) {
 	const { classes, phoneBookRecordId } = props;

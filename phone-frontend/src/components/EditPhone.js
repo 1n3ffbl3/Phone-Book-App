@@ -4,15 +4,15 @@ import { withStyles } from '@material-ui/core/styles';
 import { TextField, Button } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import { Link } from 'react-router-dom';
+import SimpleReactValidator from 'simple-react-validator';
 import styles from './styles';
 import phoneApi from '../services/PhoneApi';
-import SimpleReactValidator from 'simple-react-validator';
 
 class EditPhone extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			phoneBookRecord: null
+			phoneBookRecord: null,
 		};
 
 		this.validator = new SimpleReactValidator();
@@ -32,7 +32,7 @@ class EditPhone extends React.Component {
 			const id = this.props.match.params.phoneBookRecordId;
 			const phoneBookRecord = this.state;
 			phoneApi.updatePhone(id, phoneBookRecord)
-				.catch((error) => console.error(error));
+				.catch(error => console.error(error));
 		} else {
 			this.validator.showMessages();
 			this.forceUpdate();
@@ -45,7 +45,7 @@ class EditPhone extends React.Component {
 			return;
 		}
 		phoneBookRecord[event.target.name] = event.target.value;
-		this.setState({ phoneBookRecord: phoneBookRecord });
+		this.setState({ phoneBookRecord });
 	}
 
 	render() {
@@ -59,8 +59,8 @@ class EditPhone extends React.Component {
 					<h1>Edit Phone Book Record</h1>
 					<div>
 						<TextField
-							type='text'
-							name='firstname'
+							type="text"
+							name="firstname"
 							label="First Name"
 							className={classes.textField}
 							value={phoneBookRecord ? phoneBookRecord.firstname : ''}
@@ -73,8 +73,8 @@ class EditPhone extends React.Component {
 					</div>
 					<div>
 						<TextField
-							type='text'
-							name='lastname'
+							type="text"
+							name="lastname"
 							label="Last Name"
 							className={classes.textField}
 							value={phoneBookRecord ? phoneBookRecord.lastname : ''}
@@ -87,8 +87,8 @@ class EditPhone extends React.Component {
 					</div>
 					<div>
 						<TextField
-							type='phone'
-							name='phonenumber'
+							type="phone"
+							name="phonenumber"
 							label="Phone Number"
 							className={classes.textField}
 							value={phoneBookRecord ? phoneBookRecord.phonenumber : ''}
@@ -99,13 +99,18 @@ class EditPhone extends React.Component {
 							{phoneBookRecord && this.validator.message('phonenumber', phoneBookRecord.phonenumber, 'required|min:7')}
 						</div>
 					</div>
-					<Button variant="contained"
+					<Button
+						variant="contained"
 						size="small"
 						className={classes.button}
-						onClick={this.update}>
+						onClick={this.update}
+					>
 						<SaveIcon />
 						Save
-                	</Button>
+
+
+
+</Button>
 				</form>
 			</div>
 		);

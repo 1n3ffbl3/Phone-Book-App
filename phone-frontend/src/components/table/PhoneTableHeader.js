@@ -4,20 +4,26 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 const columns = [
-	{ id: 'lastName', numeric: false, disablePadding: true, label: 'Last name' },
-	{ id: 'firstName', numeric: true, disablePadding: false, label: 'First name' },
-	{ id: 'phoneNumber', numeric: true, disablePadding: false, label: 'Phone number' },
-	{ id: 'edit', numeric: true, disablePadding: false, label: 'Edit' }
+	{
+		id: 'lastName', numeric: false, disablePadding: true, label: 'Last name',
+	},
+	{
+		id: 'firstName', numeric: true, disablePadding: false, label: 'First name',
+	},
+	{
+		id: 'phoneNumber', numeric: true, disablePadding: false, label: 'Phone number',
+	},
+	{
+		id: 'edit', numeric: true, disablePadding: false, label: 'Edit',
+	},
 ];
 
 class PhoneTableHeader extends React.Component {
-
 	render() {
 		return (
 			<TableHead>
 				<TableRow>
-					<TableCell>
-					</TableCell>
+					<TableCell />
 					{columns.map(
 						column => (
 							<TableCell

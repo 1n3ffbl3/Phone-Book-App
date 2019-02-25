@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
-import PhoneList from './components/table/PhoneList';
 import { BrowserRouter, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import PhoneList from './components/table/PhoneList';
 import AddNewPhone from './components/AddPhone';
 import EditPhone from './components/EditPhone';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 class App extends Component {

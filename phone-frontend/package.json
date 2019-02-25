@@ -1,33 +1,41 @@
 {
-  "name": "phone-frontend",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@material-ui/core": "^3.9.2",
-    "@material-ui/icons": "^3.0.2",
-    "express-generator": "^4.16.0",
-    "react": "^16.8.1",
-    "react-debounce-input": "^3.2.0",
-    "react-dom": "^16.8.1",
-    "react-redux": "^6.0.0",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.5",
-    "react-toastify": "^4.5.2",
-    "simple-react-validator": "^1.0.5"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+	"name": "phone-frontend",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"@material-ui/core": "^3.9.2",
+		"@material-ui/icons": "^3.0.2",
+		"express-generator": "^4.16.0",
+		"react": "^16.8.1",
+		"react-debounce-input": "^3.2.0",
+		"react-dom": "^16.8.1",
+		"react-redux": "^6.0.0",
+		"react-router-dom": "^4.3.1",
+		"react-scripts": "^2.1.5",
+		"react-toastify": "^4.5.2",
+		"simple-react-validator": "^1.0.5"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject",
+		"lint": "./node_modules/.bin/eslint '**/*.js'"
+	},
+	"eslintConfig": {
+		"extends": "react-app"
+	},
+	"browserslist": [
+		">0.2%",
+		"not dead",
+		"not ie <= 11",
+		"not op_mini all"
+	],
+	"devDependencies": {
+		"eslint": "^5.14.1",
+		"eslint-config-airbnb": "^17.1.0",
+		"eslint-plugin-import": "^2.16.0",
+		"eslint-plugin-jsx-a11y": "^6.2.1",
+		"eslint-plugin-react": "^7.12.4"
+	}
 }
