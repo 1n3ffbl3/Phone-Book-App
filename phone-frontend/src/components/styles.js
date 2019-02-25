@@ -20,6 +20,9 @@ const styles = theme => ({
 	},
 	fab: {
 		margin: theme.spacing.unit
+	},
+	error: {
+		color: 'red'
 	}
 });
 

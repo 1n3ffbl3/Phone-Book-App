@@ -32,8 +32,7 @@ class EditPhone extends React.Component {
 			const id = this.props.match.params.phoneBookRecordId;
 			const phoneBookRecord = this.state;
 			phoneApi.updatePhone(id, phoneBookRecord)
-				.then(() => this.setState({ message: 'Update successful' }))
-				.catch(() => this.setState({ message: 'Something went wrong. Check your data.' }));
+				.catch((error) => console.error(error));
 		} else {
 			this.validator.showMessages();
 			this.forceUpdate();
@@ -68,7 +67,9 @@ class EditPhone extends React.Component {
 							onChange={this.handleChange}
 							margin="normal"
 						/>
-						{phoneBookRecord && this.validator.message('firstname', phoneBookRecord.firstname, 'required|alpha|min:5')}
+						<div className={classes.error}>
+							{phoneBookRecord && this.validator.message('firstname', phoneBookRecord.firstname, 'required|alpha|min:3')}
+						</div>
 					</div>
 					<div>
 						<TextField
@@ -80,7 +81,9 @@ class EditPhone extends React.Component {
 							onChange={this.handleChange}
 							margin="normal"
 						/>
-						{phoneBookRecord && this.validator.message('lastname', phoneBookRecord.lastname, 'required|alpha|min:5')}
+						<div className={classes.error}>
+							{phoneBookRecord && this.validator.message('lastname', phoneBookRecord.lastname, 'required|alpha|min:5')}
+						</div>
 					</div>
 					<div>
 						<TextField
@@ -92,7 +95,9 @@ class EditPhone extends React.Component {
 							onChange={this.handleChange}
 							margin="normal"
 						/>
-						{phoneBookRecord && this.validator.message('phonenumber', phoneBookRecord.phonenumber, 'required|min:7')}
+						<div className={classes.error}>
+							{phoneBookRecord && this.validator.message('phonenumber', phoneBookRecord.phonenumber, 'required|min:7')}
+						</div>
 					</div>
 					<Button variant="contained"
 						size="small"

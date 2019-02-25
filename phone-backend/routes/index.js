@@ -37,12 +37,9 @@ router.post('/', function (req, res, next) {
 
 	phoneBookService.add(firstName, lastName, phoneNumber)
 		.then(result => {
-			console.log(result);
-			res.status(200);
-			res.send(result);
+			res.sendStatus(204);
 		})
 		.catch(error => {
-			console.error(error);
 			res.status(400);
 			res.send(JSON.stringify({ error: error }));
 		});
@@ -74,7 +71,7 @@ router.put('/:id', function (req, res, next) {
 
 	phoneBookService.update(id, firstName, lastName, phoneNumber)
 		.then(result => {
-			res.send(JSON.stringify({ rowsUpdated: result }));
+			res.status(200).send(JSON.stringify({ rowsUpdated: result }));
 		})
 		.catch(error => {
 			res.status(400);

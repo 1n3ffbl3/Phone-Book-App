@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField, Button } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import styles from './styles';
 import phoneApi from '../services/PhoneApi';
 import SimpleReactValidator from 'simple-react-validator';
+import { notifyError, notifySuccess } from './toasts';
 
 class AddPhone extends React.Component {
 	constructor(props) {
@@ -14,7 +15,8 @@ class AddPhone extends React.Component {
 		this.state = {
 			firstname: '',
 			lastname: '',
-			phonenumber: ''
+			phonenumber: '',
+			toMainPage: false
 		};
 
 		this.validator = new SimpleReactValidator();
@@ -32,8 +34,15 @@ class AddPhone extends React.Component {
 			const { firstname, lastname, phonenumber } = this.state;
 			const data = { firstname: firstname, lastname: lastname, phonenumber: phonenumber };
 			phoneApi.addPhone(data)
-				.then(() => this.setState({ message: 'Record added succesfully.' }))
-				.catch(() => this.setState({ message: 'Something went wrong. Check your data.' }));
+				.then(() => {
+					notifySuccess('Phone record added successfully');
+					this.setState({ 'toMainPage': true });
+				})
+				.catch((err) => {
+					console.error(err);
+					const errorMessage = err.error || 'An error has occured';
+					notifyError(errorMessage);
+				});
 		} else {
 			this.validator.showMessages();
 			this.forceUpdate();
@@ -42,6 +51,9 @@ class AddPhone extends React.Component {
 
 	render() {
 		const { classes } = this.props;
+		if (this.state.toMainPage) {
+			return <Redirect to="/" />
+		}
 
 		return (
 			<div align="center" className={classes.container}>
@@ -58,7 +70,9 @@ class AddPhone extends React.Component {
 							onChange={this.handleChange}
 							margin="normal"
 						/>
-						{this.validator.message('firstname', this.state.firstname, 'required|alpha|min:5')}
+						<div className={classes.error}>
+							{this.validator.message('firstname', this.state.firstname, 'required|alpha|min:3')}
+						</div>
 					</div>
 					<div>
 						<TextField
@@ -70,7 +84,9 @@ class AddPhone extends React.Component {
 							onChange={this.handleChange}
 							margin="normal"
 						/>
-						{this.validator.message('lastname', this.state.lastname, 'required|alpha|min:5')}
+						<div className={classes.error}>
+							{this.validator.message('lastname', this.state.lastname, 'required|alpha|min:5')}
+						</div>
 					</div>
 					<div>
 						<TextField
@@ -82,7 +98,9 @@ class AddPhone extends React.Component {
 							onChange={this.handleChange}
 							margin="normal"
 						/>
-						{this.validator.message('phonenumber', this.state.phonenumber, 'required|min:7')}
+						<div className={classes.error}>
+							{this.validator.message('phonenumber', this.state.phonenumber, 'required|min:7')}
+						</div>
 					</div>
 					<Button variant="contained"
 						size="small"

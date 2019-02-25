@@ -11,12 +11,14 @@ class PhoneApi {
 				"Accept": APPLICATION_JSON
 			}
 		});
-		return await res.json();
+		const resJson = await res.json();
+		return resJson;
 	}
 
 	async getPhoneById(id) {
 		const res = await fetch(`${API_URL}${id}`);
-		return await res.json();
+		const resJson = await res.json();
+		return resJson;
 	}
 
 	async addPhone(data) {
@@ -28,19 +30,24 @@ class PhoneApi {
 			},
 			body: JSON.stringify(data)
 		});
-		return await res.json();
+		if (res.status === 204) {
+			return '';
+		}
+		const json = await res.json();
+		return json.ok ? json : Promise.reject(json);
 	}
 
 	async updatePhone(id, data) {
-		const res = fetch(`${API_URL}/${id}`, {
+		const res = await fetch(`${API_URL}${id}`, {
 			method: "PUT",
 			headers: {
 				"Accept": APPLICATION_JSON,
 				"Content-Type": APPLICATION_JSON
 			},
 			body: JSON.stringify(data)
-		})
-		return await res.json();
+		});
+		const json = await res.json();
+		return json.ok ? json : Promise.reject(json);
 	}
 }
 
