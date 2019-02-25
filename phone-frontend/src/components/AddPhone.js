@@ -69,11 +69,11 @@ class AddPhone extends React.Component {
 							value={this.state.firstname}
 							onChange={this.handleChange}
 							margin="normal"
-  />
+						/>
 						<div className={classes.error}>
 							{this.validator.message('firstname', this.state.firstname, 'required|alpha|min:3')}
-  </div>
-  </div>
+						</div>
+					</div>
 					<div>
 						<TextField
 							type="text"
@@ -83,11 +83,11 @@ class AddPhone extends React.Component {
 							value={this.state.lastname}
 							onChange={this.handleChange}
 							margin="normal"
-  />
+						/>
 						<div className={classes.error}>
 							{this.validator.message('lastname', this.state.lastname, 'required|alpha|min:5')}
-  </div>
-  </div>
+						</div>
+					</div>
 					<div>
 						<TextField
 							type="phone"
@@ -97,26 +97,23 @@ class AddPhone extends React.Component {
 							value={this.state.phonenumber}
 							onChange={this.handleChange}
 							margin="normal"
-  />
+						/>
 						<div className={classes.error}>
 							{this.validator.message('phonenumber', this.state.phonenumber, 'required|min:7')}
-  </div>
-  </div>
+						</div>
+					</div>
 					<Button
-    variant="contained"
+						variant="contained"
 						size="small"
 						type="submit"
 						className={classes.button}
 						onClick={this.save}
-  >
+					>
 						<SaveIcon />
 						Save
-
-
-					
-</Button>
-  </form>
-  </div>
+					</Button>
+				</form>
+			</div>
 		);
 	}
 }

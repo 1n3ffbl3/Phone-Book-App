@@ -3,16 +3,18 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField, Button } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import SimpleReactValidator from 'simple-react-validator';
 import styles from './styles';
 import phoneApi from '../services/PhoneApi';
+import { notifyError, notifySuccess } from './toasts';
 
 class EditPhone extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			phoneBookRecord: null,
+			toMainPage: false,
 		};
 
 		this.validator = new SimpleReactValidator();
@@ -32,7 +34,14 @@ class EditPhone extends React.Component {
 			const id = this.props.match.params.phoneBookRecordId;
 			const phoneBookRecord = this.state;
 			phoneApi.updatePhone(id, phoneBookRecord)
-				.catch(error => console.error(error));
+				.then(() => {
+					notifySuccess('Phone record updated successfully');
+					this.setState({ toMainPage: true });
+				})
+				.catch((err) => {
+					const errorMessage = err.error || 'An error has occured';
+					notifyError(errorMessage);
+				});
 		} else {
 			this.validator.showMessages();
 			this.forceUpdate();
@@ -51,6 +60,9 @@ class EditPhone extends React.Component {
 	render() {
 		const { classes } = this.props;
 		const { phoneBookRecord } = this.state;
+		if (this.state.toMainPage) {
+			return <Redirect to="/" />;
+		}
 
 		return (
 			<div align="center" className={classes.container}>
@@ -107,10 +119,7 @@ class EditPhone extends React.Component {
 					>
 						<SaveIcon />
 						Save
-
-
-
-</Button>
+					</Button>
 				</form>
 			</div>
 		);

@@ -35,10 +35,88 @@
 				],
 				"produces": [
 					"application/json"
+				]
+			},
+			"post": {
+				"tags": [
+					"phonebook"
+				],
+				"summary": "Add a new record to the phone book",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
 				],
 				"responses": {
+					"204": {
+						"description": "No Content"
+					},
+					"400": {
+						"description": "Wrong input parameters!"
+					},
+					"430": {
+						"description": "Wrong phoneNumber format. Expected: +XX XX XXXXXX!"
+					}
+				}
+			}
+		},
+		"/phoneBook/:id": {
+			"get": {
+				"tags": [
+					"phonebook"
+				],
+				"summary": "Get a specific record from the phone book",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "Id of the record to return",
+						"required": true,
+						"type": "integer",
+						"format": "int64"
+					}
+				]
+			},
+			"put": {
+				"tags": [
+					"phonebook"
+				],
+				"summary": "Update an existing pet from the phone book",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "Id of the record to update",
+						"required": true,
+						"type": "integer",
+						"format": "int64"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Successful operation!"
+					},
 					"405": {
-						"description": "Test description"
+						"description": "No phoneBookRecord found in body."
+					},
+					"400": {
+						"description": "Wrong input parameters!"
+					},
+					"430": {
+						"description": "Wrong phoneNumber format. Expected: +XX XX XXXXXX!"
 					}
 				}
 			}

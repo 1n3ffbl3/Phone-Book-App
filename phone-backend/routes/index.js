@@ -30,7 +30,7 @@ router.post('/', function (req, res, next) {
 	}
 
 	if (!phoneBookValidator.validatePhoneNumber(phoneNumber)) {
-		res.status(400);
+		res.status(430);
 		res.send(JSON.stringify({ error: `Wrong phoneNumber format. Actual: ${phoneNumber} expected: +XX XX XXXXXX!` }));
 		return;
 	}
@@ -47,7 +47,7 @@ router.post('/', function (req, res, next) {
 
 router.put('/:id', function (req, res, next) {
 	if (!req.body.phoneBookRecord) {
-		res.status(400);
+		res.status(405);
 		res.send(JSON.stringify({ error: "No phoneBookRecord found in body." }));
 		return;
 	}
@@ -64,17 +64,17 @@ router.put('/:id', function (req, res, next) {
 	}
 
 	if (!phoneBookValidator.validatePhoneNumber(phoneNumber)) {
-		res.status(400);
+		res.status(430);
 		res.send(JSON.stringify({ error: `Wrong phoneNumber format. Actual: ${phoneNumber} expected: +XX XX XXXXXX!` }));
 		return;
 	}
 
 	phoneBookService.update(id, firstName, lastName, phoneNumber)
 		.then(result => {
-			res.status(200).send(JSON.stringify({ rowsUpdated: result }));
+			res.sendStatus(204);
 		})
 		.catch(error => {
-			res.status(400);
+			res.status(405);
 			res.send(JSON.stringify({ error: error }));
 		});
 });

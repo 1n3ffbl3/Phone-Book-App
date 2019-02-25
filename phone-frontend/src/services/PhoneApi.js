@@ -45,6 +45,9 @@ class PhoneApi {
 			},
 			body: JSON.stringify(data),
 		});
+		if (res.status === 204) {
+			return '';
+		}
 		const json = await res.json();
 		return json.ok ? json : Promise.reject(json);
 	}
