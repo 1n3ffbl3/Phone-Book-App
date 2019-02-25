@@ -35,7 +35,12 @@
 				],
 				"produces": [
 					"application/json"
-				]
+				],
+				"responses": {
+					"200": {
+						"description": "JSON Array of objects."
+					}
+				}
 			},
 			"post": {
 				"tags": [
@@ -50,13 +55,16 @@
 				],
 				"responses": {
 					"204": {
-						"description": "No Content"
+						"description": "No Content."
 					},
 					"400": {
 						"description": "Wrong input parameters!"
 					},
 					"430": {
 						"description": "Wrong phoneNumber format. Expected: +XX XX XXXXXX!"
+					},
+					"500": {
+						"description": "A server error has occured."
 					}
 				}
 			}
@@ -82,13 +90,21 @@
 						"type": "integer",
 						"format": "int64"
 					}
-				]
+				],
+				"responses": {
+					"200": {
+						"description": "Json response object"
+					},
+					"400": {
+						"description": "Id was not provided!"
+					}
+				}
 			},
 			"put": {
 				"tags": [
 					"phonebook"
 				],
-				"summary": "Update an existing pet from the phone book",
+				"summary": "Update an existing record from the phone book",
 				"consumes": [
 					"application/json"
 				],
@@ -106,8 +122,8 @@
 					}
 				],
 				"responses": {
-					"200": {
-						"description": "Successful operation!"
+					"204": {
+						"description": "No Content."
 					},
 					"405": {
 						"description": "No phoneBookRecord found in body."
@@ -117,6 +133,9 @@
 					},
 					"430": {
 						"description": "Wrong phoneNumber format. Expected: +XX XX XXXXXX!"
+					},
+					"500": {
+						"description": "A server error has occured."
 					}
 				}
 			}

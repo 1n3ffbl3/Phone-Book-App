@@ -14,7 +14,12 @@ router.get('/', function (req, res, next) {
 
 router.get('/:id', function (req, res, next) {
 	const id = req.params.id;
-	const phoneBook = phoneBookService.get(id)
+	if (!id) {
+		res.status(400);
+		res.send(JSON.stringify({ error: "Id was not provided!" }));
+		return;
+	}
+	phoneBookService.get(id)
 		.then(result => res.send(JSON.stringify(result)));
 });
 
@@ -40,8 +45,9 @@ router.post('/', function (req, res, next) {
 			res.sendStatus(204);
 		})
 		.catch(error => {
-			res.status(400);
-			res.send(JSON.stringify({ error: error }));
+			console.error(error);
+			res.status(500);
+			res.send(JSON.stringify({ error: 'A server error has occured.' }));
 		});
 });
 
@@ -74,8 +80,9 @@ router.put('/:id', function (req, res, next) {
 			res.sendStatus(204);
 		})
 		.catch(error => {
-			res.status(405);
-			res.send(JSON.stringify({ error: error }));
+			console.error(error);
+			res.status(500);
+			res.send(JSON.stringify({ error: 'A server error has occured.' }));
 		});
 });
 
