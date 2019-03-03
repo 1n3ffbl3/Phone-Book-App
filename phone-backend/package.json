@@ -6,14 +6,17 @@
 		"start": "node ./bin/www"
 	},
 	"dependencies": {
+		"chai": "^4.2.0",
 		"cookie-parser": "~1.4.3",
 		"cors": "^2.8.5",
 		"debug": "~2.6.9",
 		"express": "~4.16.0",
 		"http-errors": "~1.6.2",
 		"jade": "~1.11.0",
+		"mocha": "^6.0.2",
 		"morgan": "~1.9.0",
-		"pg": "^7.8.0"
+		"pg": "^7.8.0",
+		"sinon": "^7.2.6"
 	},
 	"devDependencies": {
 		"swagger-ui-express": "^4.0.2"
