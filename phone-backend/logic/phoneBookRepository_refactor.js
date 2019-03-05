@@ -5,7 +5,7 @@ class PhoneBookRepository {
 
 	getAll() {
 		return new Promise((resolve, reject) => {
-			db.query('select * from phoneBook', (err, result) => {
+			this.db.query('select * from phoneBook', (err, result) => {
 				if (err) {
 					console.error(err);
 					reject();
@@ -18,7 +18,7 @@ class PhoneBookRepository {
 	}
 	get(id) {
 		return new Promise((resolve, reject) => {
-			db.query('select * from phoneBook where id = $1', [id], (err, result) => {
+			this.db.query('select * from phoneBook where id = $1', [id], (err, result) => {
 				if (err) {
 					console.error(err);
 					reject();
@@ -31,7 +31,7 @@ class PhoneBookRepository {
 	}
 	update(phoneBook) {
 		return new Promise((resolve, reject) => {
-			db.query(`update phoneBook 
+			this.db.query(`update phoneBook 
                 set firstName = $1, lastName = $2, phoneNumber = $3 
                 where id = $4`, [phoneBook.firstName, phoneBook.lastName, phoneBook.phoneNumber, phoneBook.id], (err, result) => {
 					if (err) {
@@ -46,7 +46,7 @@ class PhoneBookRepository {
 	}
 	add(phoneBook) {
 		return new Promise((resolve, reject) => {
-			db.query(`insert into phoneBook(firstName, lastName, phoneNumber) values ($1, $2, $3)`,
+			this.db.query(`insert into phoneBook(firstName, lastName, phoneNumber) values ($1, $2, $3)`,
 				[phoneBook.firstName, phoneBook.lastName, phoneBook.phoneNumber], (err, result) => {
 					if (err) {
 						console.error(err);

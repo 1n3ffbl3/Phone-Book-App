@@ -16,7 +16,11 @@ class ActionPhone extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			phoneBookRecord: null,
+			phoneBookRecord: {
+				firstname: '',
+				lastname: '',
+				phonenumber: ''
+			},
 			toMainPage: false,
 			action: ''
 		};
@@ -35,7 +39,13 @@ class ActionPhone extends React.Component {
 			phoneApi.getPhoneById(id)
 				.then(result => this.setState({ phoneBookRecord: result[0] }));
 		} else {
-			this.setState({ action: ADD, phoneBookRecord: {} });
+			this.setState({
+				action: ADD, phoneBookRecord: {
+					firstname: '',
+					lastname: '',
+					phonenumber: ''
+				}
+			});
 		}
 	}
 
@@ -108,7 +118,7 @@ class ActionPhone extends React.Component {
 							name="firstname"
 							label="First Name"
 							className={classes.textField}
-							value={phoneBookRecord ? phoneBookRecord.firstname : ''}
+							value={phoneBookRecord.firstname}
 							onChange={this.handleChange}
 							margin="normal"
 						/>
@@ -122,7 +132,7 @@ class ActionPhone extends React.Component {
 							name="lastname"
 							label="Last Name"
 							className={classes.textField}
-							value={phoneBookRecord ? phoneBookRecord.lastname : ''}
+							value={phoneBookRecord.lastname}
 							onChange={this.handleChange}
 							margin="normal"
 						/>
@@ -136,7 +146,7 @@ class ActionPhone extends React.Component {
 							name="phonenumber"
 							label="Phone Number"
 							className={classes.textField}
-							value={phoneBookRecord ? phoneBookRecord.phonenumber : ''}
+							value={phoneBookRecord.phonenumber}
 							onChange={this.handleChange}
 							margin="normal"
 						/>

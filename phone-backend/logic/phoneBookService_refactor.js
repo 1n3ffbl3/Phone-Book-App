@@ -1,17 +1,15 @@
-const phoneBookRepository = require('./phoneBookRepository_refactor');
-
 class PhoneBookService {
 	constructor(repository) {
 		this.phoneBookRepository = repository;
 	}
 
 	getAll() {
-		return phoneBookRepository.getAll()
+		return this.phoneBookRepository.getAll()
 			.then(result => result.rows);
 	}
 
 	get(id) {
-		return phoneBookRepository.get(id)
+		return this.phoneBookRepository.get(id)
 			.then(result => result.rows);
 	}
 
@@ -21,12 +19,12 @@ class PhoneBookService {
 			lastName: lastName,
 			phoneNumber: phoneNumber
 		};
-		return phoneBookRepository.add(phoneBook)
+		return this.phoneBookRepository.add(phoneBook)
 			.then(result => result.rowCount);
 	}
 
 	update(id, firstName, lastName, phoneNumber) {
-		return phoneBookRepository.get(id)
+		return this.phoneBookRepository.get(id)
 			.then(() => {
 				const phoneBook = {
 					id: id,
@@ -34,8 +32,10 @@ class PhoneBookService {
 					lastName: lastName,
 					phoneNumber: phoneNumber
 				};
-				return phoneBookRepository.update(phoneBook)
-					.then(result => result.rowCount);
+				return this.phoneBookRepository.update(phoneBook)
+					.then(result => {
+						return result.rowCount
+					});
 			});
 	}
 }

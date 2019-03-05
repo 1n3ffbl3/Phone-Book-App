@@ -7,7 +7,8 @@ const db = require('../logic/connection');
 
 const repository = new PhoneBookRepository(db);
 const service = new PhoneBookService(repository);
-
+console.log(`Repository: ${repository}`);
+console.log(`Service ${service}`);
 router.get('/', function (req, res, next) {
 	service.getAll()
 		.then(result => {
